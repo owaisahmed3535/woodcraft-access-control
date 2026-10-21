@@ -1,0 +1,29 @@
+role,route,permission,description
+admin,/,allow,View homepage
+admin,/login,allow,Login to portal
+admin,/dashboard,allow,View admin dashboard
+admin,/users,allow,Manage user accounts
+admin,/inventory,allow,Manage all inventory
+admin,/orders,allow,View and manage all orders
+admin,/reports,allow,View business reports
+inventory_manager,/,allow,View homepage
+inventory_manager,/login,allow,Login to portal
+inventory_manager,/dashboard,allow,View role dashboard
+inventory_manager,/inventory,allow,View and update inventory
+inventory_manager,/orders,allow,View orders for stock processing
+inventory_manager,/users,deny,Cannot manage user accounts
+inventory_manager,/reports,deny,Cannot view business reports
+staff,/,allow,View homepage
+staff,/login,allow,Login to portal
+staff,/dashboard,allow,View role dashboard
+staff,/inventory,allow,View inventory
+staff,/orders,allow,View assigned order information
+staff,/users,deny,Cannot manage user accounts
+staff,/reports,deny,Cannot view business reports
+customer,/,allow,View homepage
+customer,/login,allow,Login to portal
+customer,/dashboard,allow,View own account dashboard
+customer,/orders,allow,View own orders only
+customer,/inventory,deny,Cannot access internal inventory
+customer,/users,deny,Cannot manage user accounts
+customer,/reports,deny,Cannot view business reports
