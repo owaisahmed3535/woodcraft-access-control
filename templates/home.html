@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Home | WoodCraft Access Portal{% endblock %}
+
+{% block content %}
+    <h2>Welcome to WoodCraft</h2>
+
+    <p>
+        This is a demonstration portal for role-based access control (RBAC).
+    </p>
+
+    {% if current_user.is_authenticated %}
+        <p>You are logged in as <strong>{{ current_user.username }}</strong>.</p>
+        <p>Your assigned role is <strong>{{ current_user.role }}</strong>.</p>
+        <p><a href="{{ url_for('dashboard') }}">Open your dashboard</a></p>
+    {% else %}
+        <p>Please log in to access the portal's protected pages.</p>
+        <p><a href="{{ url_for('login') }}">Go to login</a></p>
+    {% endif %}
+{% endblock %}

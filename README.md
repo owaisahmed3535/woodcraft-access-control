@@ -1,52 +1,166 @@
-# Woodcraft Access Control
+# WoodCraft Access Portal
 
 ## Overview
 
-This project defines a role-permission matrix and fictional sample user data for a mock Woodcraft application. It demonstrates role-based access control (RBAC) concepts and secure password hashing with bcrypt.
+WoodCraft Access Portal is a Flask-based demonstration application that implements Role-Based Access Control (RBAC). It uses Flask-Login for session management, Flask-Bcrypt for password hashing, and a CSV permission matrix to define role-based access.
 
-## Project Files
+The project demonstrates authentication, authorization, protected routes, and access-denied handling using four fictional user roles.
 
-- `role_permission_matrix.csv` — maps application roles to routes and their allowed or denied permissions.
-- `generate_users.py` — generates fictional user records and hashes randomly generated temporary passwords using bcrypt.
-- `sample_users.json` — contains four fictional users with bcrypt password hashes only.
+## Features
 
-## Roles and Permissions
+- Login and logout functionality.
+- Password verification using bcrypt hashes.
+- Four user roles with different permissions.
+- Server-side access checks for protected routes.
+- Custom HTTP 403 Forbidden page.
+- CSV-based permission matrix.
+- Password setup script that prompts securely without displaying passwords.
+- Responsive HTML templates for the portal pages.
 
-| Role | Access |
-|---|---|
-| `admin` | Manages users, inventory, orders, and reports. |
-| `inventory_manager` | Views and updates inventory and accesses orders for stock processing. Cannot manage users or view reports. |
-| `staff` | Views inventory and assigned order information. Cannot manage users or view reports. |
-| `customer` | Views the homepage, own account dashboard, and own orders. Cannot access internal inventory, user management, or reports. |
+## Technology Stack
 
-## Permission Mapping
+- Python
+- Flask
+- Flask-Login
+- Flask-Bcrypt
+- HTML and CSS
+- JSON and CSV
 
-The CSV file uses these fields:
+## Project Structure
 
-- `role` — the user role being evaluated.
-- `route` — the application route.
-- `permission` — `allow` or `deny`.
-- `description` — explains the intended access rule.
-
-An `allow` entry represents intended access, while a `deny` entry represents prohibited access. Applications should enforce these permissions on the server side and deny access by default when a rule is missing. Customer order access must be restricted to that customer's own records.
-
-## Sample Users and Password Security
-
-The sample dataset contains four fictional accounts. Email addresses use the reserved `example.com` domain and do not represent real users.
-
-Passwords are generated temporarily and hashed using bcrypt with a work factor of 12. Only the resulting hashes are saved in `sample_users.json`; the temporary passwords are not stored.
-
-To generate or regenerate the sample dataset, activate your Python virtual environment, install the dependency, and run:
-
-```bash
-python -m pip install bcrypt
-python generate_users.py
+```text
+woodcraft-access-control/
+├── app.py
+├── generate_users.py
+├── set_demo_passwords.py
+├── sample_users.json
+├── role_permission_matrix.csv
+├── README.md
+├── .gitignore
+└── templates/
+    ├── base.html
+    ├── home.html
+    ├── login.html
+    ├── dashboard.html
+    ├── admin.html
+    ├── inventory.html
+    ├── orders.html
+    ├── reports.html
+    └── 403.html
 ```
 
-Regenerating the dataset creates new password hashes.
+## User Roles
 
-## Limitations
+| Role | Intended access |
+|---|---|
+| `admin` | User administration, inventory, orders, and reports. |
+| `inventory_manager` | Inventory management and order processing. |
+| `staff` | Inventory and order-related access. |
+| `customer` | Dashboard and customer order access. |
 
-This project is a demonstration dataset and permission design, not a complete authentication system. It does not implement login, sessions, or route enforcement. The permissions must be integrated into an application before they provide actual access control.
+Access is controlled by the role-permission matrix. Routes should deny access unless the corresponding permission is explicitly granted.
 
-No real personal information or production credentials are included.
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone <YOUR-GITHUB-REPOSITORY-URL>
+cd woodcraft-access-control
+```
+
+Replace the placeholder with your actual GitHub repository URL.
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+python -m pip install Flask Flask-Login Flask-Bcrypt
+```
+
+### 4. Set up demo passwords
+
+Run:
+
+```bash
+python set_demo_passwords.py
+```
+
+Follow the prompts to set a separate demo password for each fictional account. Use temporary passwords intended only for this project.
+
+The script saves bcrypt password hashes in `sample_users.json`, not plaintext passwords.
+
+### 5. Start the application
+
+```bash
+python app.py
+```
+
+Open the following address in your browser:
+
+http://127.0.0.1:5000
+
+Log in using one of the four demo usernames and the password you configured for that account.
+
+## Application Routes
+
+| Route | Purpose |
+|---|---|
+| `/` | Home page |
+| `/login` | User authentication |
+| `/logout` | End the authenticated session |
+| `/dashboard` | Role dashboard |
+| `/admin` | Administrative page |
+| `/inventory` | Inventory page |
+| `/orders` | Orders page |
+| `/reports` | Reports page |
+
+Unauthorized access is handled using a custom 403 Forbidden page.
+
+## Permission Matrix
+
+The `role_permission_matrix.csv` file defines permissions using these fields:
+
+- `role`: the user's assigned role.
+- `route`: the resource or route being evaluated.
+- `permission`: `allow` or `deny`.
+- `description`: the purpose of the rule.
+
+The Flask application checks the permission matrix on the server side before rendering protected pages.
+
+## Testing
+
+The application has been manually tested with all four demo roles.
+
+Testing should verify:
+
+- Successful login with valid credentials.
+- Rejection of invalid credentials.
+- Access to routes permitted for each role.
+- Denial of restricted routes.
+- Logout and session protection.
+- Correct handling of unauthorized requests.
+
+## Security Notes and Limitations
+- The accounts and application data are fictional and intended for demonstration.
+Passwords are stored as bcrypt hashes.
+
+Do not commit real passwords, production secrets, or personal data.
+
+The default Flask secret key is for local development only. Configure a strong secret through the SECRET_KEY environment variable before deployment.
+
+Run the application with debugging disabled in production.
+
+Customer-specific order ownership and database-backed persistence would need further implementation before this could be used as a production application.
+
+The project is an educational RBAC demonstration and has not been presented as a production-ready security system.
+
+Author
+
+WoodCraft Access Control — RBAC demonstration project.

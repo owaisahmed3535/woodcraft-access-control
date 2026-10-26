@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | WoodCraft Access Portal{% endblock %}
+
+{% block content %}
+    <h2>Dashboard</h2>
+
+    <p>Welcome, <strong>{{ current_user.username }}</strong>.</p>
+    <p>Your role: <strong>{{ current_user.role }}</strong></p>
+
+    <h3>Available Sections</h3>
+    <ul>
+        <li><a href="{{ url_for('inventory') }}">Inventory</a></li>
+        <li><a href="{{ url_for('orders') }}">Orders</a></li>
+
+        {% if current_user.role == 'admin' %}
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            <li><a href="{{ url_for('reports') }}">Reports</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
