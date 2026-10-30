@@ -164,3 +164,11 @@ The project is an educational RBAC demonstration and has not been presented as a
 Author
 
 WoodCraft Access Control — RBAC demonstration project.
+## Automated Testing
+
+The project includes automated access-control tests using pytest.
+
+### Run Tests
+
+```bash
+python -m pytest -v
